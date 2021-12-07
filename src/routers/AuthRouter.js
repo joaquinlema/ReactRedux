@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import { LoginScreen } from '../components/auth/LoginScreen';
 import { RegisterScreen } from '../components/auth/RegisterScreen';
@@ -8,7 +8,7 @@ export const AuthRouter = () => {
     return (
         <div className="auth__main">
             <div className="auth__box-container">
-                <Routes>
+                <Switch>
                     <Route
                         exact
                         path="/auth/login"
@@ -21,10 +21,10 @@ export const AuthRouter = () => {
                         component={RegisterScreen}
                     />
 
-                    <Navigate to="/auth/login" />
+                    <Redirect to="/auth/login" />
 
 
-                </Routes>
+                </Switch>
             </div>
 
         </div>

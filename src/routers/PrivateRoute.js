@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Route, Navigate } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 
 export const PrivateRoute = ({
@@ -15,7 +15,7 @@ export const PrivateRoute = ({
             component={(props) => (
                 (isAuthenticated)
                     ? (<Component {...props} />)
-                    : (<Navigate to="/auth/login" />)
+                    : (<Redirect to="/auth/login" />)
             )}
 
         />

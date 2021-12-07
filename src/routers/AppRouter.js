@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
     BrowserRouter as Router,
-    Routes,
-    Navigate
+    Switch,
+    Redirect
 } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -52,7 +52,7 @@ export const AppRouter = () => {
     return (
         <Router>
             <div>
-                <Routes>
+                <Switch>
                     <PublicRoute
                         path="/auth"
                         component={AuthRouter}
@@ -66,10 +66,10 @@ export const AppRouter = () => {
                         component={JournalScreen}
                     />
 
-                    <Navigate to="/auth/login" />
+                    <Redirect to="/auth/login" />
 
 
-                </Routes>
+                </Switch>
             </div>
         </Router>
     )
