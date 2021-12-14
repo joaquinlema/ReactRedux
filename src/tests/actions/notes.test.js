@@ -1,16 +1,23 @@
+/**
+
+* @jest-environment node
+
+*/
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { startNewNote, startLoadingNotes, startSaveNote, startUploading } from '../../actions/notes';
 import { types } from '../../types/types';
 import { db } from '../../firebase/firebase-config';
-import { fileUpload } from '../../helpers/fileUpload';
 
-// jest.mock('../../helpers/fileUpload', () => ({
-//     fileUpload: jest.fn(() => {
-//         return 'https://hola-mundo.com/cosa.jpg';
-//         // return Promise.resolve('https://hola-mundo.com/cosa.jpg');
-//     })
-// }))
+//mock de archivo
+jest.mock("../../helpers/fileUpload", () => {
+    return {
+        fileUpload: () => {
+            return Promise.resolve("Cualquierlinlk/cualquierimagen.jpg");
+        },
+    };
+});
+
 
 const middlewares = [thunk];
 const mockStore = configureStore(middlewares);
@@ -21,7 +28,7 @@ const initState = {
     },
     notes: {
         active: {
-            id: '02L6n2ZPdEgpELw8y7ML',
+            id: 'yU7P4LliIRPsaaF4syRo',
             title: 'Hola',
             body: 'Mundo'
         }
@@ -30,13 +37,16 @@ const initState = {
 
 let store = mockStore(initState);
 
+global.scrollTo = jest.fn();
+
 describe('Pruebas con las acciones de notes', () => {
 
-    // beforeEach(() => {
+    //REINICIAMOS EL STORE
+    beforeEach(() => {
 
-    //     store = mockStore(initState);
+        store = mockStore(initState);
 
-    // });
+    });
 
     test('debe de crear una nueva nota startNewNote', async () => {
 
@@ -74,55 +84,55 @@ describe('Pruebas con las acciones de notes', () => {
     })
 
 
-    //   test('startLoadingNotes debe cargar las notas', async () => {
+    test('startLoadingNotes debe cargar las notas', async () => {
 
-    //         await store.dispatch(startLoadingNotes('TESTING'));
-    //         const actions = store.getActions();
+        await store.dispatch(startLoadingNotes('TESTING'));
+        const actions = store.getActions();
 
-    //         expect(actions[0]).toEqual({
-    //             type: types.notesLoad,
-    //             payload: expect.any(Array)
-    //         });
+        expect(actions[0]).toEqual({
+            type: types.notesLoad,
+            payload: expect.any(Array)
+        });
 
-    //         const expected = {
-    //             id: expect.any(String),
-    //             title: expect.any(String),
-    //             body: expect.any(String),
-    //             date: expect.any(Number),
-    //         }
+        const expected = {
+            id: expect.any(String),
+            title: expect.any(String),
+            body: expect.any(String),
+            date: expect.any(Number),
+        }
 
-    //         expect(actions[0].payload[0]).toMatchObject(expected);
+        expect(actions[0].payload[0]).toMatchObject(expected);
 
 
-    //     })
+    })
 
-    //     test('startSaveNote debe de actualizar la nota', async () => {
+    test('startSaveNote debe de actualizar la nota', async () => {
 
-    //         const note = {
-    //             id: '02L6n2ZPdEgpELw8y7ML',
-    //             title: 'titulo',
-    //             body: 'body'
-    //         };
+        const note = {
+            id: 'uj4fBV7Ai1uuUsgC9zuw',
+            title: 'tituloesting',
+            body: 'body'
+        };
 
-    //         await store.dispatch(startSaveNote(note));
+        await store.dispatch(startSaveNote(note));
 
-    //         const actions = store.getActions();
-    //         // console.log(actions);
-    //         expect(actions[0].type).toBe(types.notesUpdated);
+        const actions = store.getActions();
+        // console.log(actions);
+        expect(actions[0].type).toBe(types.notesUpdated);
 
-    //         const docRef = await db.doc(`/TESTING/journal/notes/${note.id}`).get();
+        const docRef = await db.doc(`/TESTING/journal/notes/${note.id}`).get();
 
-    //         expect(docRef.data().title).toBe(note.title);
+        expect(docRef.data().title).toBe(note.title);
 
-    //     })
+    })
 
-    //     test('startUploading debe de actualizar el url del entry', async () => {
+    test('startUploading debe de actualizar el url del entry prueba general', async () => {
 
-    //         const file = new File([], 'foto.jpg');
-    //         await store.dispatch(startUploading(file));
+        const file = [];
+        await store.dispatch(startUploading(file));
 
-    //         const docRef = await db.doc('/TESTING/journal/notes/02L6n2ZPdEgpELw8y7ML').get();
-    //         expect(docRef.data().url).toBe('https://hola-mundo.com/cosa.jpg');
-
-    //     })
+        const docRef = await db.doc('/TESTING/journal/notes/yU7P4LliIRPsaaF4syRo').get();
+        expect(docRef.data().url).not.toBe('https://hola-mundo.com/cosa.jpg');
+        expect(docRef.data().url).toBe('Cualquierlinlk/cualquierimagen.jpg')
+    })
 })

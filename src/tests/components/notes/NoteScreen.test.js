@@ -41,21 +41,18 @@ const initState = {
 let store = mockStore(initState);
 store.dispatch = jest.fn();
 
-const wrapper = mount( 
-    <Provider store={ store }>
-        <NoteScreen /> 
+const wrapper = mount(
+    <Provider store={store}>
+        <NoteScreen />
     </Provider>
 
 )
-
-
-
 
 describe('Pruebas en <NoteScreen />', () => {
 
     test('debe de mostrarse correctamente', () => {
 
-        expect( wrapper ).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
 
     })
 
@@ -70,7 +67,7 @@ describe('Pruebas en <NoteScreen />', () => {
         });
 
 
-        expect( activeNote ).toHaveBeenLastCalledWith(
+        expect(activeNote).toHaveBeenLastCalledWith(
             1234,
             {
                 body: 'mundo',
@@ -80,11 +77,11 @@ describe('Pruebas en <NoteScreen />', () => {
             }
         );
 
-        
+
     })
-    
 
-    
 
-    
+
+
+
 })

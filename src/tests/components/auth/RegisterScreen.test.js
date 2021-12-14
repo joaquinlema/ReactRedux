@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux'
@@ -30,10 +34,10 @@ const initState = {
 let store = mockStore(initState);
 // store.dispatch = jest.fn();
 
-const wrapper = mount( 
-    <Provider store={ store }>
+const wrapper = mount(
+    <Provider store={store}>
         <MemoryRouter>
-            <RegisterScreen /> 
+            <RegisterScreen />
         </MemoryRouter>
     </Provider>
 
@@ -48,8 +52,8 @@ describe('Pruebas en <RegisterScreen />', () => {
 
 
     test('debe de mostrarse correctamente', () => {
-        
-        expect( wrapper ).toMatchSnapshot();
+
+        expect(wrapper).toMatchSnapshot();
 
     })
 
@@ -64,21 +68,21 @@ describe('Pruebas en <RegisterScreen />', () => {
                 name: 'email'
             }
         });
-        
+
         wrapper.find('form').simulate('submit', {
-            preventDefault(){}
+            preventDefault() { }
         });
 
         const actions = store.getActions();
-        
-        expect( actions[0] ).toEqual({
+
+        expect(actions[0]).toEqual({
             type: types.uiSetError,
             payload: 'Email is not valid'
         });
-        
+
     })
-    
-    
+
+
     test('debe de mostrar la caja de alerta con el error', () => {
 
         const initState = {
@@ -88,27 +92,27 @@ describe('Pruebas en <RegisterScreen />', () => {
                 msgError: 'Email no es correcto'
             }
         };
-        
+
         const store = mockStore(initState);
-        
-        
-        const wrapper = mount( 
-            <Provider store={ store }>
+
+
+        const wrapper = mount(
+            <Provider store={store}>
                 <MemoryRouter>
-                    <RegisterScreen /> 
+                    <RegisterScreen />
                 </MemoryRouter>
             </Provider>
         );
 
-        
-        expect( wrapper.find('.auth__alert-error').exists()  ).toBe(true);
-        expect( wrapper.find('.auth__alert-error').text().trim()  ).toBe( initState.ui.msgError );
+
+        expect(wrapper.find('.auth__alert-error').exists()).toBe(true);
+        expect(wrapper.find('.auth__alert-error').text().trim()).toBe(initState.ui.msgError);
 
 
-        
+
     })
-    
 
 
-    
+
+
 })
