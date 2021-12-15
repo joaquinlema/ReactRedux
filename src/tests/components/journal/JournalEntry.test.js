@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux'
@@ -25,9 +29,9 @@ const nota = {
     url: 'https://algunlugar.com/foto.jpg'
 };
 
-const wrapper = mount( 
-    <Provider store={ store }>
-        <JournalEntry { ...nota }  /> 
+const wrapper = mount(
+    <Provider store={store}>
+        <JournalEntry {...nota} />
     </Provider>
 
 )
@@ -41,8 +45,8 @@ describe('Pruebas en <JournalEntry />', () => {
 
     test('debe de mostrarse correctamente', () => {
 
-        expect( wrapper ).toMatchSnapshot();
-        
+        expect(wrapper).toMatchSnapshot();
+
     });
 
 
@@ -51,14 +55,14 @@ describe('Pruebas en <JournalEntry />', () => {
 
         wrapper.find('.journal__entry').prop('onClick')();
 
-        expect( store.dispatch ).toHaveBeenCalledWith(
-            activeNote( nota.id, { ...nota } )
+        expect(store.dispatch).toHaveBeenCalledWith(
+            activeNote(nota.id, { ...nota })
         );
 
-        
-    })
-    
-    
 
-    
+    })
+
+
+
+
 })

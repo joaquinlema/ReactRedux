@@ -6,10 +6,8 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom';
-
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-
 import '@testing-library/jest-dom';
 import { RegisterScreen } from '../../../components/auth/RegisterScreen';
 import { types } from '../../../types/types';
@@ -43,13 +41,7 @@ const wrapper = mount(
 
 )
 
-
-
-
 describe('Pruebas en <RegisterScreen />', () => {
-
-
-
 
     test('debe de mostrarse correctamente', () => {
 
@@ -95,7 +87,6 @@ describe('Pruebas en <RegisterScreen />', () => {
 
         const store = mockStore(initState);
 
-
         const wrapper = mount(
             <Provider store={store}>
                 <MemoryRouter>
@@ -103,16 +94,7 @@ describe('Pruebas en <RegisterScreen />', () => {
                 </MemoryRouter>
             </Provider>
         );
-
-
         expect(wrapper.find('.auth__alert-error').exists()).toBe(true);
         expect(wrapper.find('.auth__alert-error').text().trim()).toBe(initState.ui.msgError);
-
-
-
     })
-
-
-
-
 })

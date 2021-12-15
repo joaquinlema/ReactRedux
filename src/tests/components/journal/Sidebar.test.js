@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+*/
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux'
@@ -41,9 +45,9 @@ const initState = {
 let store = mockStore(initState);
 store.dispatch = jest.fn();
 
-const wrapper = mount( 
-    <Provider store={ store }>
-        <Sidebar /> 
+const wrapper = mount(
+    <Provider store={store}>
+        <Sidebar />
     </Provider>
 
 )
@@ -54,7 +58,7 @@ describe('Pruebas en <Sidebar />', () => {
 
     test('debe de mostrarse correctamente', () => {
         // snapshot
-        expect( wrapper ).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     })
 
 
@@ -62,16 +66,16 @@ describe('Pruebas en <Sidebar />', () => {
         // debe de llamar la acción del logout
         wrapper.find('button').prop('onClick')();
 
-        expect( startLogout ).toHaveBeenCalled()
+        expect(startLogout).toHaveBeenCalled()
 
     })
-    
+
     test('debe de llamar el startNewNote', () => {
         // debe de llamar la acción startNewNote
         wrapper.find('.journal__new-entry').prop('onClick')();
-        expect( startNewNote ).toHaveBeenCalled();
+        expect(startNewNote).toHaveBeenCalled();
 
     })
-    
-    
+
+
 })
